@@ -5,12 +5,16 @@ using UnityEngine;
 
 public class Rocket : MonoBehaviour
 {
-	Rigidbody rigidbody;
+    Rigidbody rigidbody;
+    public GameObject rudder1;
+    public GameObject rudder2;
+    AudioSource audioSource;
 
     // Use this for initialization
     void Start()
     {
-		rigidbody = GetComponent<Rigidbody>();
+        rigidbody = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -24,14 +28,26 @@ public class Rocket : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             rigidbody.AddRelativeForce(Vector3.up);
+            if (!audioSource.isPlaying) //prevents audio from layering
+            {
+                audioSource.Play();
+            }
+        }
+        else
+        {
+            audioSource.Stop();
         }
         if (Input.GetKey(KeyCode.A))
         {
-            print("Rotating Left");
+            transform.Rotate(Vector3.forward);
+            rudder1.transform.Rotate(-Vector3.forward * 0.3f);
+            rudder2.transform.Rotate(-Vector3.forward * 0.3f);
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            print("Rotating Right");
+            transform.Rotate(-Vector3.forward);
+            rudder1.transform.Rotate(Vector3.forward * 0.3f);
+            rudder2.transform.Rotate(Vector3.forward * 0.3f);
         }
 
     }
