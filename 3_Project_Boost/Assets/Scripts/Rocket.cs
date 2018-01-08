@@ -16,6 +16,9 @@ public class Rocket : MonoBehaviour
     AudioSource audioSource;
     [SerializeField] float rcsThrust = 100f;
     [SerializeField] float mainThrust = 100f;
+    [SerializeField] AudioClip mainEnigne;
+    [SerializeField] AudioClip levelWin;
+    [SerializeField] AudioClip deathExplosion;
 
     enum State { Alive, Dying, Transcending }
     State state = State.Alive;
@@ -32,8 +35,8 @@ public class Rocket : MonoBehaviour
     { //TODO: somewhere stop sound on death
         if (state == State.Alive)
         {
-            Rotate();
-            Thrust();
+            RespondToRotateInput();
+            RespondToThrustInput();
         }
     }
 
@@ -46,10 +49,12 @@ public class Rocket : MonoBehaviour
                 break;
             case "Finish":
                 state = State.Transcending;
-                Invoke("LoadNextlevel", 1f); // TODO: parameterise time
+                audioSource.PlayOneShot(levelWin);
+                Invoke("LoadNextLevel", 1f); // TODO: parameterise time
                 break;
             default:
                 state = State.Dying;
+                audioSource.PlayOneShot(deathExplosion);
                 Invoke("LoadFirstLevel", 1f); // TODO: parameterise time
                 break;
         }
@@ -65,7 +70,7 @@ public class Rocket : MonoBehaviour
 
     }
 
-    private void Rotate()
+    private void RespondToRotateInput()
     {
         rigidbody.freezeRotation = true; // take manual control of rotation
         float rotationThisFrame = rcsThrust * Time.deltaTime;
@@ -82,19 +87,24 @@ public class Rocket : MonoBehaviour
         rigidbody.freezeRotation = false; // resume physics control of rotation 
     }
 
-    private void Thrust()
+    private void RespondToThrustInput()
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            rigidbody.AddRelativeForce(Vector3.up * mainThrust);
-            if (!audioSource.isPlaying) //prevents audio from layering
-            {
-                audioSource.Play();
-            }
+            ApplyThrust();
         }
         else
         {
             audioSource.Stop();
+        }
+    }
+
+    private void ApplyThrust()
+    {
+        rigidbody.AddRelativeForce(Vector3.up * mainThrust);
+        if (!audioSource.isPlaying) //prevents audio from layering
+        {
+            audioSource.PlayOneShot(mainEnigne);
         }
     }
 }

@@ -213,6 +213,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 82737626545706386, guid: a1271c3689d74464ea62152ce79960f6,
+        type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114484185487047224, guid: a1271c3689d74464ea62152ce79960f6,
+        type: 2}
+      propertyPath: mainEnigne
+      value: 
+      objectReference: {fileID: 8300000, guid: fb29a45fd66bdd14f86f845b12c7c399, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a1271c3689d74464ea62152ce79960f6, type: 2}
   m_IsPrefabParent: 0
