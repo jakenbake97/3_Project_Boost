@@ -23,6 +23,7 @@ public class Rocket : MonoBehaviour
     [SerializeField] ParticleSystem mainEngineParticles;
     [SerializeField] ParticleSystem levelWinParticles;
     [SerializeField] ParticleSystem deathExplosionParticles;
+    int sceneIndex = 1;
 
     enum State { Alive, Dying, Transcending }
     State state = State.Alive;
@@ -81,12 +82,13 @@ public class Rocket : MonoBehaviour
     private void LoadFirstLevel()
     {
         SceneManager.LoadScene(0);
+        sceneIndex = 1;
     }
 
     private void LoadNextLevel()
     {
-        SceneManager.LoadScene(1); // TODO: allow for more than 2 levels
-
+        SceneManager.LoadScene(sceneIndex); // TODO: allow for more than 2 levels
+        sceneIndex++;
     }
 
     private void RespondToRotateInput()
@@ -121,7 +123,7 @@ public class Rocket : MonoBehaviour
 
     private void ApplyThrust()
     {
-        rigidbody.AddRelativeForce(Vector3.up * mainThrust);
+        rigidbody.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
         if (!audioSource.isPlaying) //prevents audio from layering
         {
             audioSource.PlayOneShot(mainEngine);
