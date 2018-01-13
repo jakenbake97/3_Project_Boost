@@ -23,10 +23,12 @@ public class Rocket : MonoBehaviour
     [SerializeField] ParticleSystem mainEngineParticles;
     [SerializeField] ParticleSystem levelWinParticles;
     [SerializeField] ParticleSystem deathExplosionParticles;
+
     int sceneIndex = 1;
 
     enum State { Alive, Dying, Transcending }
     State state = State.Alive;
+    bool collisionsAreDisabled = false;
 
     // Use this for initialization
     void Start()
@@ -42,12 +44,28 @@ public class Rocket : MonoBehaviour
         {
             RespondToRotateInput();
             RespondToThrustInput();
+            if (Debug.isDebugBuild)
+            {
+                RespondToDebugKeys();
+            }
+        }
+    }
+
+    private void RespondToDebugKeys()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LoadNextLevel();
+        }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            collisionsAreDisabled = !collisionsAreDisabled; //toggle
         }
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        if (state != State.Alive) { return; } // ignore collisons
+        if (state != State.Alive || collisionsAreDisabled) { return; } // ignore collisons
         switch (collision.gameObject.tag)
         {
             case "Friendly":

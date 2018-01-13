@@ -959,8 +959,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rcsThrust: 200
-  mainThrust: 15
-  transitionTime: 2
+  mainThrust: 1500
+  levelLoadDelay: 1
   mainEngine: {fileID: 8300000, guid: fb29a45fd66bdd14f86f845b12c7c399, type: 3}
   levelWin: {fileID: 8300000, guid: eab0fa9e457cc5544bf558a709883b30, type: 3}
   deathExplosion: {fileID: 8300000, guid: 6cd6db71a5c35b946bbb8a3152cb1d30, type: 3}
