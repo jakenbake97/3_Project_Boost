@@ -116,6 +116,7 @@ public class Rocket : MonoBehaviour
     {
         rigidbody.angularVelocity = Vector3.zero; // remove rotation due to physics
 
+        float rotationThisFrame = rcsThrust * Time.deltaTime;
         if (Input.GetKey(KeyCode.A))
         {
             transform.Rotate(Vector3.forward * rotationThisFrame);
