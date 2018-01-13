@@ -24,7 +24,6 @@ public class Rocket : MonoBehaviour
     [SerializeField] ParticleSystem levelWinParticles;
     [SerializeField] ParticleSystem deathExplosionParticles;
 
-    int sceneIndex = 1;
 
     enum State { Alive, Dying, Transcending }
     State state = State.Alive;
@@ -100,13 +99,18 @@ public class Rocket : MonoBehaviour
     private void LoadFirstLevel()
     {
         SceneManager.LoadScene(0);
-        sceneIndex = 1;
     }
 
     private void LoadNextLevel()
     {
-        SceneManager.LoadScene(sceneIndex); // TODO: allow for more than 2 levels
-        sceneIndex++;
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        int nextSceneIndex = currentSceneIndex + 1;
+        SceneManager.LoadScene(nextSceneIndex);
+        if (currentSceneIndex == (SceneManager.sceneCountInBuildSettings - 1))
+        {
+            SceneManager.LoadScene(0);
+        }
+
     }
 
     private void RespondToRotateInput()
